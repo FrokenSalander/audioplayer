@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Single-Use Audio Buttons</title>
+  <title>Single-Use Audio Button</title>
   <style>
     body { font-family: sans-serif; text-align: center; margin-top: 40px; }
     button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
@@ -12,87 +12,74 @@
 </head>
 <body>
   <h2>🎧 Single-Use Audio Player</h2>
-
   <p>Enter your code to unlock playback:</p>
   <input type="password" id="codeInput" placeholder="Enter code">
   <button id="checkCode">Unlock</button>
-
   <div style="margin-top:30px;">
-    <button id="btn1" disabled>Play Audio 1</button>
-    <button id="btn2" disabled>Play Audio 2</button>
-    <button id="btn3" disabled>Play Audio 3</button>
-    <button id="btn4" disabled>Play Audio 4</button>
+    <button id="btn1" disabled>Play Audio</button>
   </div>
-
   <!-- Hidden audio element -->
   <audio id="player" hidden></audio>
-
   <script>
     // --- CONFIGURATION ---
-	const audioFiles = [
-	  { url: "https://FrokenSalander.github.io/audioplayer/1.mp3" },
-	  { url: "https://FrokenSalander.github.io/audioplayer/2.mp3" },
-	  { url: "https://FrokenSalander.github.io/audioplayer/3.mp3" },
-	  { url: "https://FrokenSalander.github.io/audioplayer/4.mp3" },
+    const audioFile = { url: "https://FrokenSalander.github.io/audioplayer/audio.mp3" };
+	const validCodes = [
+	  "B2191D6B12",
+	  "00BF34CA0E",
+	  "475042DEA0",
+	  "975DB8CCA1",
+	  "E505BC70AB",
+	  "6D5E9A26D7",
+	  "231BE34B92",
+	  "E54C5B6D22",
+	  "F4A3480EEF",
+	  "2E12D30FA1",
+	  "E1F09E34A9",
+	  "1337C1C77C",
+	  "7214E28CD6",
+	  "16E3DB9919",
+	  "F5842A2FF2",
+	  "3ABEE2E737",
+	  "78B3F978E4",
+	  "80878098D6",
+	  "DEFA50BD3E",
+	  "DFC53C1A20",
 	];
-
-    const validCodes = [
-	"A7F3D2C91E",
-	"4C9B8E1D5A",
-	"E1D5A47B2F",
-	"7B2F9CD8A1",
-	"D8A16F3E7C",
-	"3E7C5BF492",
-	"F492AD68BE",
-];
-
     let usedCodes = JSON.parse(localStorage.getItem("usedCodes") || "[]");
-
     const player = document.getElementById("player");
-    const buttons = [
-      document.getElementById("btn1"),
-      document.getElementById("btn2"),
-      document.getElementById("btn3"),
-      document.getElementById("btn4")
-    ];
-
+    const btn = document.getElementById("btn1");
+ 
     // --- UNLOCK BUTTON ---
     document.getElementById("checkCode").addEventListener("click", () => {
       const code = document.getElementById("codeInput").value.trim();
-
       if (usedCodes.includes(code)) {
         alert("❌ This code has already been used.");
         return;
       }
-
       if (validCodes.includes(code)) {
-        alert("✅ Access granted! You can now play the audios.");
-        buttons.forEach(btn => btn.disabled = false);
-
+        alert("✅ Access granted! You can now play the audio.");
+        btn.disabled = false;
         usedCodes.push(code);
         localStorage.setItem("usedCodes", JSON.stringify(usedCodes));
       } else {
         alert("Invalid code.");
       }
     });
-
+ 
     // --- PLAYBACK LOGIC ---
-buttons.forEach((btn, index) => {
-  btn.addEventListener("click", () => {
-    // Disable immediately
-    btn.disabled = true;
-    btn.textContent = "Playing…";
-
-    // Set audio source and play
-    player.src = audioFiles[index].url;
-    player.play();
-
-    // Update text when audio ends
-    player.onended = () => {
-      btn.textContent = "Played ✅";
-    };
-  });
-});
+    btn.addEventListener("click", () => {
+      // Disable immediately
+      btn.disabled = true;
+      btn.textContent = "Playing…";
+      // Set audio source and play
+      player.src = audioFile.url;
+      player.play();
+      // Update text when audio ends
+      player.onended = () => {
+        btn.textContent = "Played ✅";
+      };
+    });
   </script>
 </body>
 </html>
+ 
